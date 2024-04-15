@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  db:
+    build: ./database
+    cap_add:
+      - SYS_NICE
+    restart: always
+    environment:
+      - MYSQL_DATABASE=woody
+      - MYSQL_ROOT_PASSWORD=pass
+    ports:
+      - '3306:3306'
+
+  api:
+    build: ./api
+    restart: always
+    links:
+      - "db"
+
+  front:
+    build: ./front
+
+  reverse:
+    build: ./reverse-proxy
+    ports:
+      - "80:8080"
+    depends_on:
+      - front
+      - api
