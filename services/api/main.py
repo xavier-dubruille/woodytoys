@@ -23,7 +23,7 @@ def get_time():
     return f'misc: {datetime.now()}'
 
 
-@app.route('/api/misc/heavy/', methods=['GET'])
+@app.route('/api/misc/heavy', methods=['GET'])
 def get_heavy():
     # TODO TP9: cache ?
     name = request.args.get('name')
