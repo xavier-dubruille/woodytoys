@@ -14,7 +14,8 @@ from time import sleep
 LONG_WAIT_TIME = 10  # seconds
 SHORT_WAIT_TIME = 5
 
-def get_last_product():
+
+def my_connect():
     # note, c'est une mauvaise idée de recréer la connection à chaque requète
     # (c'est surtt pour une question de performance)
     # Mais ici, ce n'est pas la performance qu'on cherche ;)
@@ -24,7 +25,12 @@ def get_last_product():
         mycursor = mydb.cursor()
     except Error as e:
         print(e)
-        return "Connection DB impossible"
+        return None, None
+    return mydb, mycursor
+
+
+def get_last_product():
+    mydb, mycursor = my_connect()
 
     mycursor.execute("LOCK TABLES product READ;")
 
@@ -52,6 +58,30 @@ def make_some_heavy_computation(param=""):
     return f"Woody -{param}- Woody"
 
 
+def make_heavy_validation(order):
+    make_some_heavy_computation()
+    return "Success"
+
+
+def add_product(product):
+    mydb, mycursor = my_connect()
+    query = f"INSERT INTO woody.product ( name) VALUES ({product});"
+
+    mycursor.execute(query)
+
+    mycursor.close()
+    mydb.close()
+
+
 def launch_server(app, host='0.0.0.0', port=5000):
     # voici ce qui rend le serveur si limité ...
     run_simple(host, port, app, use_reloader=True, threaded=False)
+
+
+# todo xav: implement those
+def save_order(order_id, status, order):
+    return None
+
+
+def get_order(order_id):
+    return None
