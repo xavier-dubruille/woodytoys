@@ -11,7 +11,7 @@ from werkzeug.serving import run_simple
 from mysql.connector import connect, Error
 from time import sleep
 
-LONG_WAIT_TIME = 10  # seconds
+LONG_WAIT_TIME = 5  # seconds
 SHORT_WAIT_TIME = 5
 
 
@@ -65,10 +65,10 @@ def make_heavy_validation(order):
 
 def add_product(product):
     mydb, mycursor = my_connect()
-    query = f"INSERT INTO woody.product ( name) VALUES ({product});"
+    query = f"INSERT INTO woody.product ( name) VALUES ('{product}');"
 
     mycursor.execute(query)
-
+    mydb.commit()
     mycursor.close()
     mydb.close()
 
@@ -78,10 +78,25 @@ def launch_server(app, host='0.0.0.0', port=5000):
     run_simple(host, port, app, use_reloader=True, threaded=False)
 
 
-# todo xav: implement those
-def save_order(order_id, status, order):
-    return None
+def save_order(order_id, status, product):
+    mydb, mycursor = my_connect()
+    query = f"INSERT INTO woody.order (order_id, status, product) VALUES ('{order_id}', '{status}', '{product}');"
+
+    mycursor.execute(query)
+    mydb.commit()
+
+    mycursor.close()
+    mydb.close()
 
 
 def get_order(order_id):
-    return None
+    mydb, mycursor = my_connect()
+    query = f"SELECT status FROM woody.order WHERE order_id='{order_id}';"
+
+    mycursor.execute(query)
+
+    order_status = mycursor.fetchone()
+
+    mycursor.close()
+    mydb.close()
+    return order_status

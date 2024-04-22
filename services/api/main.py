@@ -28,14 +28,17 @@ def get_heavy():
     # TODO TP9: cache ?
     name = request.args.get('name')
     r = woody.make_some_heavy_computation(name)
+    # on rajoute la date pour pas que le resultat ne soit mis en cache par le browser
     return f'{datetime.now()}: {r}'
 
 
 # ### 2. Product Service ###
-@app.route('/api/products', methods=['POST'])
+@app.route('/api/products', methods=['GET'])
 def add_product():
-    product = request.json.get('product', '')
-    woody.add_product(product)
+    # product = request.json.get('product', '')
+    product = request.args.get('product')
+    woody.add_product(str(product))
+    return str(product) or "none"
 
 
 @app.route('/api/products/<int:product_id>', methods=['GET'])
@@ -51,20 +54,22 @@ def get_last_product():
 
 
 # ### 3. Order Service
-@app.route('/api/orders', methods=['POST'])
+@app.route('/api/orders/do', methods=['GET'])
 def create_order():
     # very slow process because some payment validation is slow (maybe make it asynchronous ?)
-    order = request.get_json()
+    # order = request.get_json()
+    product = request.args.get('product')
     order_id = str(uuid.uuid4())
 
     # TODO TP10: this next line is long, intensive and can be done asynchronously ... maybe use a message broker ?
-    process_order(order_id, order)
+    process_order(order_id, product)
 
-    return "Your process {order_id} has been created"
+    return f"Your process {order_id} has been created"
 
 
-@app.route('/api/orders/<order_id>', methods=['GET'])
-def get_order(order_id):
+@app.route('/api/orders/', methods=['GET'])
+def get_order():
+    order_id = request.args.get('order_id')
     status = woody.get_order(order_id)
 
     return f'order "{order_id}": {status}'

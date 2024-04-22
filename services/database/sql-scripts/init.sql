@@ -5,6 +5,15 @@ create table woody.product
     name varchar(200) null
 );
 
-INSERT INTO woody.product (id, name) VALUES (1, 'Yoyo');
-INSERT INTO woody.product (id, name) VALUES (2, 'Joli train');
+INSERT INTO woody.product (id, name)
+VALUES (1, 'Yoyo');
+INSERT INTO woody.product (id, name)
+VALUES (2, 'Joli train');
+
+
+CREATE TABLE woody.order (
+    order_id VARCHAR(200) NOT NULL,
+    status VARCHAR(200) NOT NULL,
+    product VARCHAR(200) NOT NULL
+);
 
