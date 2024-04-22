@@ -1,14 +1,13 @@
 import uuid
-from urllib import request
-
-from flask import Flask
 from datetime import datetime
-import redis
+
+from flask import Flask, request
+from flask_cors import CORS
 
 import woody
 
 app = Flask('my_api')
-
+cors = CORS(app)
 
 # redis_db = redis.Redis(host='redis', port=6379, db=0)
 
@@ -24,9 +23,10 @@ def get_time():
     return f'misc: {datetime.now()}'
 
 
-@app.route('/api/misc/heavy/<str:name>', methods=['GET'])
-def get_heavy(name):
+@app.route('/api/misc/heavy/', methods=['GET'])
+def get_heavy():
     # TODO TP9: cache ?
+    name = request.args.get('name')
     r = woody.make_some_heavy_computation(name)
     return f'{datetime.now()}: {r}'
 
@@ -46,7 +46,7 @@ def get_product(product_id):
 @app.route('/api/products/last', methods=['GET'])
 def get_last_product():
     # TODO TP9: put in cache ? cache duration ?
-    last_product = get_last_product()  # note: it's a very slow db query
+    last_product = woody.get_last_product()  # note: it's a very slow db query
     return f'db: {datetime.now()} - {last_product}'
 
 
@@ -63,7 +63,7 @@ def create_order():
     return "Your process {order_id} has been created"
 
 
-@app.route('/api/orders/<str:order_id>', methods=['GET'])
+@app.route('/api/orders/<order_id>', methods=['GET'])
 def get_order(order_id):
     status = woody.get_order(order_id)
 

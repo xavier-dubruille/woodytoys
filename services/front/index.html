@@ -26,7 +26,7 @@
         <tbody>
         <tr>
             <td class="px-4 py-2 border-bottom">
-                <button hx-get="/api/misc/time" hx-target="#data1" class="bg-blue-500 text-white font-bold py-2 px-4 rounded">Fast</button>
+                <button hx-get="/api/misc/time" hx-target="#data1" class="bg-blue-500 text-white font-bold py-2 px-4 rounded">Get backend time</button>
             </td>
             <td class="px-4 py-2 border-bottom">
                 <div id="data1" class="border border-gray-300 p-2"></div>
@@ -35,7 +35,7 @@
 
         <tr>
             <td class="px-4 py-2 border-bottom">
-                <button hx-get="/api/misc/heavy" hx-target="#data3" class="bg-red-500 text-white font-bold py-2 px-4 rounded">slow dynamic</button>
+                <button hx-get="/api/misc/heavy" hx-target="#data3" class="bg-red-500 text-white font-bold py-2 px-4 rounded">Heavy Computation</button>
             </td>
             <td class="px-4 py-2 border-bottom">
                 <div id="data3" class="border border-gray-300 p-2"></div>
@@ -43,7 +43,7 @@
         </tr>
         <tr>
             <td class="px-4 py-2 border-bottom">
-                <button hx-post="api/products/last" hx-target="#data4" class="bg-purple-500 text-white font-bold py-2 px-4 rounded">Database</button>
+                <button hx-get="api/products/last" hx-target="#data4" class="bg-purple-500 text-white font-bold py-2 px-4 rounded">Get Last product</button>
             </td>
             <td class="px-4 py-2 border-bottom">
                 <div id="data4" class="border border-gray-300 p-2"></div>
