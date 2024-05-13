@@ -110,7 +110,7 @@
                 <input type="text" id="order" name="order" placeholder="Product to buy">
                 <button hx-get="/api/orders/do"
                         hx-target="#data_order"
-                        hx-include="[order='order']"
+                        hx-include="[name='order']"
                         hx-indicator="#spinner_order"
                         class="bg-purple-500 text-white font-bold py-2 px-4 rounded"
                 >
@@ -127,7 +127,7 @@
             <td class="px-4 py-2 border-bottom">
                 <input type="text" id="order_id" name="order_id" placeholder="order id">
                 <button hx-get="api/orders"
-                        hx-include="[order_id='order_id']"
+                        hx-include="[name='order_id']"
                         hx-target="#data_order_id"
                         class="bg-purple-500 text-white font-bold py-2 px-4 rounded">
                     Check order id

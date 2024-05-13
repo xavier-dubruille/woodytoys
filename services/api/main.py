@@ -58,13 +58,13 @@ def get_last_product():
 def create_order():
     # very slow process because some payment validation is slow (maybe make it asynchronous ?)
     # order = request.get_json()
-    product = request.args.get('product')
+    product = request.args.get('order')
     order_id = str(uuid.uuid4())
 
     # TODO TP10: this next line is long, intensive and can be done asynchronously ... maybe use a message broker ?
     process_order(order_id, product)
 
-    return f"Your process {order_id} has been created"
+    return f"Your process {order_id} has been created with this product : {product}"
 
 
 @app.route('/api/orders/', methods=['GET'])
